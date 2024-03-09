@@ -82,11 +82,12 @@ classdef Cube < handle
             set(ax,'ylim',[-ymax ymax])
             set(ax,'zlim',[-zmax zmax])
             hold on
+            sc = 0.5;
             p = patch(ax,xc(obj.faces), yc(obj.faces), zc(obj.faces),'k');
             q = quiver3(ax,[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[xmax,-xmax,0,0,0,0],[0,0,ymax,-ymax,0,0],[0,0,0,0,zmax,-zmax]);
-            b1 = quiver3(ax,obj.x,obj.y,obj.z,obj.R(1,1)*obj.length,obj.R(2,1)*obj.length,obj.R(3,1)*obj.length,1.1);
-            b2 = quiver3(ax,obj.x,obj.y,obj.z,obj.R(1,2)*obj.width,obj.R(2,2)*obj.width,obj.R(3,2)*obj.width,1.1);
-            b3 = quiver3(ax,obj.x,obj.y,obj.z,obj.R(1,3)*obj.height,obj.R(2,3)*obj.height,obj.R(3,3)*obj.height,1.1);
+            b1 = quiver3(ax,obj.x,obj.y,obj.z,obj.R(1,1)*obj.length+obj.R(1,1)*sc,obj.R(2,1)*obj.length+obj.R(2,1)*sc,obj.R(3,1)*obj.length+obj.R(3,1)*sc,1);
+            b2 = quiver3(ax,obj.x,obj.y,obj.z,obj.R(1,2)*obj.width+obj.R(1,2)*sc,obj.R(2,2)*obj.width+obj.R(2,2)*sc,obj.R(3,2)*obj.width+obj.R(3,2)*sc,1);
+            b3 = quiver3(ax,obj.x,obj.y,obj.z,obj.R(1,3)*obj.height+obj.R(1,3)*sc,obj.R(2,3)*obj.height+obj.R(2,3)*sc,obj.R(3,3)*obj.height+obj.R(3,3)*sc,1);
             legend([b1,b2,b3],["x","y","z"])
             hold off
 
