@@ -1,10 +1,10 @@
 classdef Cube < handle
-
     properties
         x;
         y;
         z;
         R;
+        P;
         width = 1;
         length = 1;
         height = 1;
@@ -46,6 +46,7 @@ classdef Cube < handle
             obj.y = 0;
             obj.z = 0;
             obj.R = eye(3);
+            obj.P = [0;0;0];
             obj.m = m;
             obj.Ib = diag([m*w*h/6,m*l*h/6,m*l*w/6]);
             obj.generate;
@@ -61,15 +62,21 @@ classdef Cube < handle
                         obj.length   -obj.width  obj.height;
                         obj.length   obj.width   obj.height;
                         -obj.length  obj.width   obj.height;
-                        ]';
+                        ]'+ obj.P.*ones(3,8);
         end
         
-        function obj = rotate(obj,Rr)
+        function obj = transform(obj,Rr,P)
             obj.R = Rr;
-            obj.verts = Rr*obj.verts0; 
+            obj.x = P(1);
+            obj.y = P(2);
+            obj.z = P(3);
+            obj.P = P;
+            obj.verts = Rr*obj.verts0 + P.*ones(3,8);
         end
 
         function show(obj,lims)
+            set(gcf,"Renderer",'opengl');
+            shading flat
             cla
             ax = gca;
             xc = obj.verts(1,:);
@@ -78,9 +85,9 @@ classdef Cube < handle
             xmax = lims(1);
             ymax = lims(2);
             zmax = lims(3);
-            set(ax,'xlim',[-xmax xmax])
-            set(ax,'ylim',[-ymax ymax])
-            set(ax,'zlim',[-zmax zmax])
+            set(ax,'xlim',[-xmax+obj.P(1) xmax+obj.P(1)])
+            set(ax,'ylim',[-ymax+obj.P(2) ymax+obj.P(2)])
+            set(ax,'zlim',[-zmax+obj.P(3) zmax+obj.P(3)])
             hold on
             sc = 0.5;
             p = patch(ax,xc(obj.faces), yc(obj.faces), zc(obj.faces),'k');
