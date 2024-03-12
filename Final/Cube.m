@@ -3,8 +3,10 @@ classdef Cube < handle
         x;
         y;
         z;
+        
         R;
         P;
+
         width = 1;
         length = 1;
         height = 1;
@@ -38,15 +40,15 @@ classdef Cube < handle
     end
 
     methods
-        function obj = Cube(l,w,h,m)
+        function obj = Cube(x,y,z,l,w,h,m)
             obj.width = w;
             obj.length = l;
             obj.height = h;
-            obj.x = 0;
-            obj.y = 0;
-            obj.z = 0;
+            obj.x = x;
+            obj.y = y;
+            obj.z = z;
             obj.R = eye(3);
-            obj.P = [0;0;0];
+            obj.P = [x;y;z];
             obj.m = m;
             obj.Ib = diag([m*w*h/6,m*l*h/6,m*l*w/6]);
             obj.generate;
@@ -62,16 +64,17 @@ classdef Cube < handle
                         obj.length   -obj.width  obj.height;
                         obj.length   obj.width   obj.height;
                         -obj.length  obj.width   obj.height;
-                        ]'+ obj.P.*ones(3,8);
+                        ]';
+            obj.verts = obj.R*obj.verts0 + obj.P.*ones(3,8);
         end
         
-        function obj = transform(obj,Rr,P)
-            obj.R = Rr;
+        function obj = transform(obj,R,P)
+            obj.R = R;
             obj.x = P(1);
             obj.y = P(2);
             obj.z = P(3);
             obj.P = P;
-            obj.verts = Rr*obj.verts0 + P.*ones(3,8);
+            obj.verts = R*obj.verts0 + P.*ones(3,8);
         end
 
         function show(obj,lims)
