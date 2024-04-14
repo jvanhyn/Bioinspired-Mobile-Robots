@@ -14,6 +14,8 @@ classdef Cube < handle
         Ib;
         m = 1;
 
+        F;
+
         verts0 = [...
                 -1  -1  -1;
                 1   -1  -1;
@@ -40,7 +42,7 @@ classdef Cube < handle
     end
 
     methods
-        function obj = Cube(x,y,z,l,w,h,m)
+        function obj = Cube(x,y,z,l,w,h)
             obj.width = w;
             obj.length = l;
             obj.height = h;
@@ -49,7 +51,8 @@ classdef Cube < handle
             obj.z = z;
             obj.R = eye(3);
             obj.P = [x;y;z];
-            obj.m = m;
+            obj.m = 1;
+            m = 1;
             obj.Ib = diag([m*w*h/6,m*l*h/6,m*l*w/6]);
             obj.generate;
         end
@@ -75,6 +78,10 @@ classdef Cube < handle
             obj.z = P(3);
             obj.P = P;
             obj.verts = R*obj.verts0 + P.*ones(3,8);
+        end
+
+        function obj = update(cube,F,dt)
+            obj.P = cube.P + F/cube.m*dt;
         end
 
         function show(obj,lims)
