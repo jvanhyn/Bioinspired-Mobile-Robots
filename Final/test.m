@@ -42,7 +42,7 @@ function x_dot = dynamics(t,x,F,cube)
     f = F(4:end);
     wb = x(4:6);
     dxyz = x(10:12);
-    x_dot = [wb; inv(cube.Ib)*(VecToso3(wb)*cube.Ib*wb) + inv(cube.Ib)*tau; dxyz; f./cube.m];
+    x_dot = [wb; inv(cube.I)*(VecToso3(wb)*cube.I*wb) + inv(cube.I)*tau; dxyz; f./cube.m];
 end
 
 function so3mat = VecToso3(omg)

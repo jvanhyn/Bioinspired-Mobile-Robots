@@ -11,7 +11,7 @@ classdef Cube < handle
         length = 1;
         height = 1;
 
-        Ib;
+        I;
         m = 1;
 
         F;
@@ -53,7 +53,7 @@ classdef Cube < handle
             obj.P = [x;y;z];
             obj.m = 1;
             m = 1;
-            obj.Ib = diag([m*w*h/6,m*l*h/6,m*l*w/6]);
+            obj.I = diag([m*w*h/6,m*l*h/6,m*l*w/6]);
             obj.generate;
         end
 
@@ -107,7 +107,6 @@ classdef Cube < handle
             b3 = quiver3(ax,obj.x,obj.y,obj.z,obj.R(1,3)*obj.height+obj.R(1,3)*sc,obj.R(2,3)*obj.height+obj.R(2,3)*sc,obj.R(3,3)*obj.height+obj.R(3,3)*sc,1);
             legend([b1,b2,b3],["x","y","z"])
             hold off
-
 
             set(b1,"LineWidth",5)
             set(b1,"Color",'r')
